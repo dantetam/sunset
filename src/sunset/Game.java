@@ -15,6 +15,7 @@ public class Game extends PApplet {
 	
 	public ArrayList<BaseSystem> systems;
 	public OrderSystem orderSystem = new OrderSystem(this);
+	public InputSystem inputSystem = new InputSystem(this);
 	public RenderSystem renderSystem = new RenderSystem(this);
 	public MenuSystem menuSystem = new MenuSystem(this);
 	
@@ -32,6 +33,7 @@ public class Game extends PApplet {
 		
 		systems = new ArrayList<BaseSystem>();
 		systems.add(orderSystem);
+		systems.add(inputSystem);
 		systems.add(renderSystem);
 		systems.add(menuSystem);
 	}
@@ -42,6 +44,16 @@ public class Game extends PApplet {
 		{
 			systems.get(i).tick();
 		}
+	}
+	
+	public void keyPressed()
+	{
+		inputSystem.queueKey(key);
+	}
+	
+	public void keyReleased()
+	{
+		inputSystem.keyReleased(key);
 	}
 	
 	public void fill(Color c)
