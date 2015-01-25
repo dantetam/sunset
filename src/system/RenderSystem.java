@@ -1,6 +1,7 @@
 package system;
 
 import data.Data;
+import entity.Entity;
 import entity.Resource;
 import level.Grid;
 import level.Tile;
@@ -17,11 +18,11 @@ public class RenderSystem extends BaseSystem {
 	public void tick() 
 	{
 		main.background(255);
-		Grid grid = main.level.levels.get(main.level.activeGrid);
+		Grid grid = main.grid();
 		float width = main.width/(float)widthX;
 		float height = main.height/(float)widthY;
-		main.println(cameraX + " " + cameraY + " " + widthX + " " + widthY);
-		main.println((cameraX - widthX/2) + " " + (cameraY - widthY/2) + " " + (cameraX + widthX/2) + " " + (cameraY + widthY/2));
+		//main.println(cameraX + " " + cameraY + " " + widthX + " " + widthY);
+		//main.println((cameraX - widthX/2) + " " + (cameraY - widthY/2) + " " + (cameraX + widthX/2) + " " + (cameraY + widthY/2));
 		int rr = 0, cc = 0;
 		for (int r = cameraX - widthX/2; r < cameraX + widthX/2; r++)
 		{
@@ -47,7 +48,7 @@ public class RenderSystem extends BaseSystem {
 						main.fill(Data.resourceMap.get(res.id));
 						main.pushMatrix();
 						main.translate(cameraX - widthX/2, cameraY - widthY/2);
-						main.rect(((float)rr+0.25F)*width, ((float)cc+0.25F)*height, width/2, height/2);
+						main.rect(((float)rr+(res.spriteX-r)+0.25F)*width, ((float)cc+(res.spriteX-r)+0.25F)*height, width/2, height/2);
 						main.popMatrix();
 					}
 				}
@@ -56,6 +57,19 @@ public class RenderSystem extends BaseSystem {
 			rr++;
 			cc = 0;
 			//if (r*width > widthX) continue; //Edge of screen
+		}
+		for (int i = 0; i < grid.entities.size(); i++)
+		{
+			Entity en = grid.entities.get(i);
+			if (en instanceof Resource)
+			{
+				Resource res = (Resource)en;
+				main.fill(Data.resourceMap.get(res.id));
+				main.pushMatrix();
+				main.translate(cameraX - widthX/2, cameraY - widthY/2);
+				main.rect(((float)rr+0.25F)*width, ((float)cc+0.25F)*height, width/2, height/2);
+				main.popMatrix();
+			}
 		}
 	}
 

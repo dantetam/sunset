@@ -14,6 +14,7 @@ public class Data {
 		terrainMap.put(2, new Color(50, 200, 50));   //soil
 		
 		resourceMap.put(0, new Color(125, 125, 125)); //a rock
+		resourceMap.put(1, new Color(140, 70, 0)); //a tree
 	}
 	
 }

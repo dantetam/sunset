@@ -1,23 +1,27 @@
 package sunset;
 
 import processing.core.PApplet;
+import game.Pathfinder;
 
 import java.util.ArrayList;
 
 import data.Color;
 import data.Data;
+import level.Grid;
 import level.Level;
 import system.*;
 
 public class Game extends PApplet {
 
 	public Level level;
+	public Pathfinder path;
 	
 	public ArrayList<BaseSystem> systems;
 	public OrderSystem orderSystem = new OrderSystem(this);
 	public InputSystem inputSystem = new InputSystem(this);
 	public RenderSystem renderSystem = new RenderSystem(this);
 	public MenuSystem menuSystem = new MenuSystem(this);
+	public ColonistSystem colonistSystem = new ColonistSystem(this);
 	
 	public static void main(String[] args)
 	{
@@ -36,6 +40,10 @@ public class Game extends PApplet {
 		systems.add(inputSystem);
 		systems.add(renderSystem);
 		systems.add(menuSystem);
+		systems.add(colonistSystem);
+		colonistSystem.init();
+		
+		path = new Pathfinder(grid());
 	}
 	
 	public void draw()
@@ -60,5 +68,7 @@ public class Game extends PApplet {
 	{
 		super.fill(c.r, c.g, c.b);
 	}
+	
+	public Grid grid() {return level.levels.get(level.activeGrid);}
 	
 }

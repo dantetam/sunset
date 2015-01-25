@@ -10,11 +10,18 @@ public class Tile {
 	public ArrayList<LivingEntity> occupants;
 	public Entity item;
 	public int terrain;
+	public Grid grid;
 	
-	public Tile(int r, int c)
+	public Tile(Grid g, int r, int c)
 	{
 		occupants = new ArrayList<LivingEntity>();
+		grid = g;
 		this.r = r; this.c = c;
+	}
+	
+	public double dist(Tile t)
+	{
+		return Math.sqrt(Math.pow(t.r-r,2) + Math.pow(t.c-c,2));
 	}
 	
 }
