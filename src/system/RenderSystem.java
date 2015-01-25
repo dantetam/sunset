@@ -2,17 +2,15 @@ package system;
 
 import java.util.ArrayList;
 
+import processing.core.PImage;
+import data.Color;
 import data.Data;
-import entity.Blueprint;
-import entity.Building;
-import entity.Entity;
-import entity.Item;
-import entity.LivingEntity;
-import entity.Resource;
+import entity.*;
 import level.Grid;
 import level.Tile;
 import level.Zone;
 import sunset.Game;
+import terrain.DiamondSquare;
 
 public class RenderSystem extends BaseSystem {
 
@@ -21,13 +19,47 @@ public class RenderSystem extends BaseSystem {
 	public Tile firstBound = null;
 	public int buildingRotation = 0;
 
+	public PImage[][] textures;
+	public double[][] heightMap;
+	public DiamondSquare ds;
+
 	public RenderSystem(Game g) {
 		super(g);
+	}
+
+	public void init()
+	{
+		ds = new DiamondSquare(DiamondSquare.makeTable(0, 0, 0, 0, 1025));
+		ds.seed(870691);
+		heightMap = ds.generate(new double[]{0, 0, 512, 150, 0.7});
+		textures = new PImage[main.grid().rows][main.grid().cols];
+		for (int r = 0; r < textures.length; r++)
+		{
+			for (int c = 0; c < textures[0].length; c++)
+			{
+				Tile t = main.grid().getTile(r,c);
+				Color color = Data.terrainMap.get(t.terrain);
+				int len = 4;
+				PImage temp = new PImage(len,len,main.IMAGE);
+				for (int nr = 0; nr < len; nr++)
+				{
+					for (int nc = 0; nc < len; nc++)
+					{
+						float gray = (float)heightMap[r*4 + nr][c*4 + nc];
+						main.println(gray);
+						temp.pixels[nr*len + nc] = main.color(color.r+gray,color.g+gray,color.b+gray,255);
+					}
+				}
+				textures[r][c] = temp;
+			}
+		}
 	}
 
 	public void tick() 
 	{
 		main.background(255);
+		main.noStroke();
+		main.textSize(20);
 		Grid grid = main.grid();
 		float width = main.width/(float)widthX;
 		float height = main.height/(float)widthY;
@@ -88,7 +120,7 @@ public class RenderSystem extends BaseSystem {
 				{
 					Zone z = grid.zones.get(i);
 					if (z.tiles.contains(t))
-						main.fill(z.r,z.g,z.b,100);
+						main.tint(z.r,z.g,z.b,255);
 				}
 				if (main.renderSystem.mh != null)
 				{
@@ -97,8 +129,18 @@ public class RenderSystem extends BaseSystem {
 				}
 				main.pushMatrix();
 				main.translate(cameraX - widthX/2, cameraY - widthY/2);
-				main.rect(rr*width, cc*height, width, height);
+				main.beginShape(main.QUADS);
+				main.texture(textures[r][c]);
+				main.vertex(rr*width, cc*height, 0, 0);
+				main.vertex((rr+1)*width, cc*height, 1, 0);
+				main.vertex((rr+1)*width, (cc+1)*height, 1, 1);
+				main.vertex(rr*width, (cc+1)*height, 0, 1);
+				main.endShape();
+				//if (textures[r][c] != null)
+				//main.image(textures[r][c],rr*width,cc*height,width,height);
+				//main.rect(rr*width, cc*height, width, height);
 				main.popMatrix();
+				main.tint(255,255);
 				if (main.mouseX > rr*width && main.mouseY > cc*height && main.mouseX < (rr+1)*width && main.mouseY < (cc+1)*height)
 					mh = t;
 				if (t.item != null)
@@ -195,11 +237,18 @@ public class RenderSystem extends BaseSystem {
 				main.fill(Data.personMap.get(person.id));
 				main.pushMatrix();
 				main.translate(cameraX - widthX/2, cameraY - widthY/2);
+				/*
 				main.rect(
 						(rrs.get(i)+((double)person.spriteX-(double)person.location().r)+0.25F)*width, 
 						(ccs.get(i)+((double)person.spriteY-(double)person.location().c)+0.25F)*height, 
 						width/2, 
 						height/2);
+					 */
+				PImage image = main.loadImage("colonist" + ((Colonist) person).getDirection() + ".png");
+				main.image(image,(rrs.get(i)+((double)person.spriteX-(double)person.location().r))*width, 
+						(ccs.get(i)+((double)person.spriteY-(double)person.location().c))*height, 
+						width, 
+						height);
 				main.popMatrix();
 			}
 			else if (entities.get(i) instanceof Item)

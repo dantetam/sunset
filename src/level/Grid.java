@@ -224,8 +224,23 @@ public class Grid {
 		return nearest(candidates, row, col);
 	}
 	
+	private boolean zone(Item item)
+	{
+		for (int i = 0; i < zones.size(); i++)
+		{
+			for (int j = 0; j < zones.get(i).tiles.size(); j++)
+			{
+				Tile t = zones.get(i).tiles.get(j);
+				if (t.item != null)
+					if (t.item.equals(item))
+						return true;
+			}
+		}
+		return false;
+	}
+	
 	//Possibly refine the two methods below using a comparator/boolean function/class type as an input
-	public Tile nearestItem(int row, int col)
+	public Tile nearestItem(int row, int col, boolean takeFromStock)
 	{
 		ArrayList<Tile> candidates = new ArrayList<Tile>();
 		for (int r = 0; r < rows; r++)
@@ -236,7 +251,8 @@ public class Grid {
 				{
 					//System.out.println("sekai");
 					if (!((Item)getTile(r,c).item).forbid && ((Item)getTile(r,c).item).reserve == null)
-						candidates.add(getTile(r,c));
+						if (takeFromStock || (!takeFromStock && !zone((Item)getTile(r,c).item)))
+							candidates.add(getTile(r,c));
 				}
 			}
 		}

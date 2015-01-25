@@ -2,6 +2,7 @@ package system;
 
 import java.util.ArrayList;
 
+import entity.Colonist;
 import level.Grid;
 import level.Tile;
 import sunset.Game;
@@ -98,12 +99,12 @@ public class InputSystem extends BaseSystem {
 			return;
 		main.renderSystem.firstBound = main.renderSystem.mh;
 	}
-	
+
 	public void passRightMouseClick(float mouseX, float mouseY)
 	{
 
 	}
-	
+
 	public void mouseReleased()
 	{
 		if (main.renderSystem.firstBound != null)
@@ -128,6 +129,23 @@ public class InputSystem extends BaseSystem {
 			//TODO: Implement
 			if (++main.renderSystem.buildingRotation > 3)
 				main.renderSystem.buildingRotation = 0;
+		}
+		else if (key == 'c')
+		{
+			main.println("Clearing...");
+			for (int i = 0; i < main.colonistSystem.colonists.size(); i++)
+			{
+				Colonist c = main.colonistSystem.colonists.get(i);
+				for (int j = 0; j < c.queue.size(); j++)
+				{
+					main.println("Cleared...");
+					c.queue.get(j).frames = 0;
+				}
+				for (int j = 0; j < c.secondQueue.size(); j++)
+				{
+					c.secondQueue.get(j).frames = 0;
+				}
+			}
 		}
 	}
 

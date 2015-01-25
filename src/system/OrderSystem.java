@@ -88,7 +88,7 @@ public class OrderSystem extends BaseSystem {
 				if (path == null) return false;
 				for (int i = 0; i < path.size() - 1; i++)
 				{
-					Order o = new Order("move", 25);
+					Order o = new Order("move", 15);
 					o.data.add(path.get(i).r - path.get(i+1).r);
 					o.data.add(path.get(i).c - path.get(i+1).c);
 					//System.out.println((path.get(i+1).r - path.get(i).r) + " " + (path.get(i+1).c - path.get(i).c));
@@ -113,7 +113,7 @@ public class OrderSystem extends BaseSystem {
 				if (path == null) return false;
 				for (int i = 0; i < path.size() - 1; i++)
 				{
-					Order o = new Order("move", 25);
+					Order o = new Order("move", 15);
 					o.data.add(path.get(i).r - path.get(i+1).r);
 					o.data.add(path.get(i).c - path.get(i+1).c);
 					//System.out.println((path.get(i+1).r - path.get(i).r) + " " + (path.get(i+1).c - path.get(i).c));
@@ -139,7 +139,7 @@ public class OrderSystem extends BaseSystem {
 				if (path == null) return false;
 				for (int i = 0; i < path.size() - 1; i++)
 				{
-					Order o = new Order("move", 25);
+					Order o = new Order("move", 15);
 					o.data.add(path.get(i).r - path.get(i+1).r);
 					o.data.add(path.get(i).c - path.get(i+1).c);
 					//System.out.println((path.get(i+1).r - path.get(i).r) + " " + (path.get(i+1).c - path.get(i).c));
@@ -158,7 +158,7 @@ public class OrderSystem extends BaseSystem {
 		}*/
 		else if (order.type.equals("haulAll"))
 		{
-			Tile tree = grid.nearestItem(person.location().r, person.location().c);
+			Tile tree = grid.nearestItem(person.location().r, person.location().c,false);
 			if (tree != null)
 			{
 				main.println(tree);
@@ -168,7 +168,7 @@ public class OrderSystem extends BaseSystem {
 				if (path == null) return false;
 				for (int i = 0; i < path.size() - 1; i++)
 				{
-					Order o = new Order("move", 25);
+					Order o = new Order("move", 15);
 					o.data.add(path.get(i).r - path.get(i+1).r);
 					o.data.add(path.get(i).c - path.get(i+1).c);
 					//System.out.println((path.get(i+1).r - path.get(i).r) + " " + (path.get(i+1).c - path.get(i).c));
@@ -187,8 +187,8 @@ public class OrderSystem extends BaseSystem {
 		}
 		else if (order.type.equals("move"))
 		{
-			person.spriteX += order.data.get(0).doubleValue()/25D;
-			person.spriteY += order.data.get(1).doubleValue()/25D;
+			person.spriteX += order.data.get(0).doubleValue()/15D;
+			person.spriteY += order.data.get(1).doubleValue()/15D;
 			//main.println(order.data.get(0).doubleValue()/40D);
 			if (order.frames == 0)
 			{
@@ -249,7 +249,7 @@ public class OrderSystem extends BaseSystem {
 					if (path == null) return false;
 					for (int i = 0; i < path.size() - 1; i++)
 					{
-						Order o = new Order("move", 25);
+						Order o = new Order("move", 15);
 						o.data.add(path.get(i).r - path.get(i+1).r);
 						o.data.add(path.get(i).c - path.get(i+1).c);
 						//System.out.println((path.get(i+1).r - path.get(i).r) + " " + (path.get(i+1).c - path.get(i).c));
@@ -336,7 +336,7 @@ public class OrderSystem extends BaseSystem {
 					if (path == null) return false;
 					for (int i = 0; i < path.size() - 1; i++)
 					{
-						Order o = new Order("move", 25);
+						Order o = new Order("move", 15);
 						o.data.add(path.get(i).r - path.get(i+1).r);
 						o.data.add(path.get(i).c - path.get(i+1).c);
 						//System.out.println((path.get(i+1).r - path.get(i).r) + " " + (path.get(i+1).c - path.get(i).c));
@@ -350,7 +350,7 @@ public class OrderSystem extends BaseSystem {
 					if (path == null) return false;
 					for (int i = 0; i < path.size() - 1; i++)
 					{
-						Order o = new Order("move", 25);
+						Order o = new Order("move", 15);
 						o.data.add(path.get(i).r - path.get(i+1).r);
 						o.data.add(path.get(i).c - path.get(i+1).c);
 						//System.out.println((path.get(i+1).r - path.get(i).r) + " " + (path.get(i+1).c - path.get(i).c));

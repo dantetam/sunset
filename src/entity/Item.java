@@ -3,7 +3,7 @@ package entity;
 public class Item extends Entity {
 
 	public int id, number;
-	public boolean forbid = true;
+	public boolean forbid = false;
 	
 	public Item(int i, int n)
 	{

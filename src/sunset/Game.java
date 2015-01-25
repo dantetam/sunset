@@ -1,6 +1,7 @@
 package sunset;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 import game.Pathfinder;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class Game extends PApplet {
 	
 	public void setup()
 	{
-		size(1600,900);
+		size(1600,900,P2D);
 		Data.setup();
 		
 		level = new Level(1,len,len);
@@ -43,6 +44,7 @@ public class Game extends PApplet {
 		systems.add(renderSystem);
 		systems.add(menuSystem);
 		systems.add(colonistSystem);
+		renderSystem.init();
 		menuSystem.init();
 		colonistSystem.init();
 		
@@ -93,6 +95,7 @@ public class Game extends PApplet {
 	
 	public void text(String text, double a, double b) {super.text(text, (float)a, (float)b);}
 	public void rect(double a, double b, double c, double d) {super.rect((float)a, (float)b, (float)c, (float)d);}
+	public void image(PImage image, double a, double b, double c, double d) {super.image(image, (float)a, (float)b, (float)c, (float)d);}
 	
 	public Grid grid() {return level.levels.get(level.activeGrid);}
 	

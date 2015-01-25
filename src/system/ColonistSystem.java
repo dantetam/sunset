@@ -76,7 +76,7 @@ public class ColonistSystem extends BaseSystem {
 					grid.getTile(r,c).dist(grid.getTile(main.renderSystem.cameraX,main.renderSystem.cameraY)) > 10);
 			Colonist colonist = new Colonist();
 			colonist.move(grid.getTile(r,c));
-			main.colonistSystem.colonists.add(colonist);
+			colonists.add(colonist);
 		}
 	}
 
