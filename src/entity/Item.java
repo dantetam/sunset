@@ -15,4 +15,10 @@ public class Item extends Entity {
 		id = i.id; number = i.number;
 	}
 	
+	public boolean cost(Item i)
+	{
+		if (i == null) return true;
+		return id == i.id && number >= i.number;
+	}
+	
 }

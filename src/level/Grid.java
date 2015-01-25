@@ -125,7 +125,7 @@ public class Grid {
 		return null;
 	}
 
-	public ArrayList<Tile> adjacent(int r, int c)
+	private ArrayList<Tile> adjacent(int r, int c)
 	{
 		ArrayList<Tile> temp = new ArrayList<Tile>();
 		if (getTile(r+1,c) != null) {temp.add(getTile(r+1,c));} 
@@ -137,6 +137,12 @@ public class Grid {
 		if (getTile(r-1,c+1) != null) {temp.add(getTile(r-1,c+1));} 
 		if (getTile(r-1,c-1) != null) {temp.add(getTile(r-1,c-1));} 
 		return temp;
+	}
+	
+	public Tile randomAdj(int r, int c)
+	{
+		ArrayList<Tile> tiles = adjacent(r,c);
+		return tiles.get((int)(Math.random()*tiles.size()));
 	}
 
 	public Tile nearestStockpile(int row, int col)
@@ -176,7 +182,49 @@ public class Grid {
 		return candidate;
 	}
 
-	//Possibly refine the two methods below using a comparator/boolean function as an input
+	public Building nearestBuilding(int row, int col)
+	{
+		Building candidate = null;
+		Tile t = getTile(row,col);
+		for (int i = 0; i < buildings.size(); i++)
+		{
+			if (buildings.get(i) instanceof Building && !(buildings.get(i) instanceof Blueprint))
+			{
+				Building blue = buildings.get(i);
+				if (blue.reserve != null) continue;
+				if (candidate == null)
+					candidate = blue;
+				else
+				{
+					if (blue.location().dist(t) < candidate.location().dist(t))
+						candidate = blue;
+				}
+			}
+		}
+		return candidate;
+	}
+	
+	public Tile nearestItem(int row, int col, int id)
+	{
+		ArrayList<Tile> candidates = new ArrayList<Tile>();
+		for (int r = 0; r < rows; r++)
+		{
+			for (int c = 0; c < cols; c++)
+			{
+				if (getTile(r,c).item instanceof Item)
+				{
+					//System.out.println("sekai");
+					if (!((Item)getTile(r,c).item).forbid && 
+							((Item)getTile(r,c).item).reserve == null &&
+							((Item)getTile(r,c).item).id == id)
+						candidates.add(getTile(r,c));
+				}
+			}
+		}
+		return nearest(candidates, row, col);
+	}
+	
+	//Possibly refine the two methods below using a comparator/boolean function/class type as an input
 	public Tile nearestItem(int row, int col)
 	{
 		ArrayList<Tile> candidates = new ArrayList<Tile>();

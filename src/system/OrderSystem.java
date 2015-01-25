@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import data.Data;
 import entity.Blueprint;
+import entity.Building;
 import entity.Entity;
 import entity.Item;
 import entity.LivingEntity;
@@ -126,6 +127,35 @@ public class OrderSystem extends BaseSystem {
 			}
 			order.frames = 0;
 		}
+		else if (order.type.equals("workNearest"))
+		{
+			Building tree = grid.nearestBuilding(person.location().r, person.location().c);
+			if (tree != null)
+			{
+				//int index = -1; do {index++;} while (tree.item.reserve != null);
+				tree.reserve = person;
+
+				ArrayList<Tile> path = main.path.findAdjustedPath(person.location().r, person.location().c, tree.location().r, tree.location().c);
+				if (path == null) return false;
+				for (int i = 0; i < path.size() - 1; i++)
+				{
+					Order o = new Order("move", 25);
+					o.data.add(path.get(i).r - path.get(i+1).r);
+					o.data.add(path.get(i).c - path.get(i+1).c);
+					//System.out.println((path.get(i+1).r - path.get(i).r) + " " + (path.get(i+1).c - path.get(i).c));
+					person.queue.add(o);
+				}
+				Order o = new Order("workBuilding", 500);
+				o.entityData.add(tree);
+				person.queue.add(o);
+				return true;
+			}
+			order.frames = 0;
+		}
+		/*else if (order.type.equals("getMaterials"))
+		{
+
+		}*/
 		else if (order.type.equals("haulAll"))
 		{
 			Tile tree = grid.nearestItem(person.location().r, person.location().c);
@@ -170,7 +200,7 @@ public class OrderSystem extends BaseSystem {
 		}
 		else if (order.type.equals("take"))
 		{
-			if (person.item !=null)
+			if (person.item != null)
 			{
 				Order o = new Order("drop", -1);
 				o.data.add(person.location().r);
@@ -258,12 +288,91 @@ public class OrderSystem extends BaseSystem {
 			if (en instanceof Blueprint)
 			{
 				Blueprint blue = (Blueprint)en;
+				/*if (blue.items.size() > 0)
+				{
+					Order o = new Order("getMaterials", -1);
+					person.queue.add(o);
+					order.frames = 0;
+					return true;
+				}*/
 				blue.work -= 1;
 				if (blue.work <= 0)
 				{
 					blue.remove();
 					order.frames = 0;
 				}
+				return true;
+			}
+		}
+		else if (order.type.equals("workBuilding"))
+		{
+			Entity en = order.entityData.get(0);
+			if (en instanceof Building)
+			{
+				Building build = (Building)en;
+				boolean yes = false;
+				if (person.item == null)
+				{
+					yes = build.input == null;
+				}
+				else if (person.item.cost(build.input))
+				{
+					yes = true;
+				}
+				if (yes)
+				{
+					person.item = null;
+					Order o = new Order("produce", 50);
+					o.data.add(person.location().r);
+					o.data.add(person.location().c);
+					o.entityData.add(build.output);
+					person.queue.add(o);
+					o.frames = 0;
+				}
+				else
+				{
+					Tile tree = grid.nearestItem(person.location().r, person.location().c, build.input.id);
+					ArrayList<Tile> path = main.path.findAdjustedPath(person.location().r, person.location().c, tree.r, tree.c);
+					if (path == null) return false;
+					for (int i = 0; i < path.size() - 1; i++)
+					{
+						Order o = new Order("move", 25);
+						o.data.add(path.get(i).r - path.get(i+1).r);
+						o.data.add(path.get(i).c - path.get(i+1).c);
+						//System.out.println((path.get(i+1).r - path.get(i).r) + " " + (path.get(i+1).c - path.get(i).c));
+						person.queue.add(o);
+					}
+					Order o2 = new Order("take", -1);
+					o2.data.add(tree.r); o2.data.add(tree.c);
+					person.queue.add(o2);
+
+					path = main.path.findAdjustedPath(tree.r, tree.c, person.location().r, person.location().c);
+					if (path == null) return false;
+					for (int i = 0; i < path.size() - 1; i++)
+					{
+						Order o = new Order("move", 25);
+						o.data.add(path.get(i).r - path.get(i+1).r);
+						o.data.add(path.get(i).c - path.get(i+1).c);
+						//System.out.println((path.get(i+1).r - path.get(i).r) + " " + (path.get(i+1).c - path.get(i).c));
+						person.queue.add(o);
+					}
+				}
+				return true;
+			}
+		}
+		else if (order.type.equals("produce"))
+		{
+			if (order.frames == 0)
+			{
+				Item item = new Item((Item)order.entityData.get(0));
+				item.move(main.grid().randomAdj(person.location().r, person.location().c));
+				Order o = new Order("take", -1);
+				o.data.add(item.location().r); o.data.add(item.location().c);
+				person.queue.add(o);
+				o = new Order("store", -1);
+				o.data.add(item.location().r); o.data.add(item.location().c);
+				person.queue.add(o);
+				order.frames = 0;
 				return true;
 			}
 		}

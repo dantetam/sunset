@@ -94,7 +94,6 @@ public class RenderSystem extends BaseSystem {
 				{
 					if (t.equals(main.renderSystem.mh))
 						main.fill(0,0,255,100);
-
 				}
 				main.pushMatrix();
 				main.translate(cameraX - widthX/2, cameraY - widthY/2);
@@ -243,9 +242,9 @@ public class RenderSystem extends BaseSystem {
 							main.fill(0,0,0,255);
 							main.pushMatrix();
 							main.translate(cameraX - widthX/2, cameraY - widthY/2);
-							System.out.println(">>>"+rrs.get(i)+" "+(b.tiles.get(j).r-b.location().r));
-							System.out.println((rrs.get(i)+(b.tiles.get(j).r-b.location().r))*width);
-							System.out.println((ccs.get(i)+(b.tiles.get(j).c-b.location().c))*height);
+							//System.out.println(">>>"+rrs.get(i)+" "+(b.tiles.get(j).r-b.location().r));
+							//System.out.println((rrs.get(i)+(b.tiles.get(j).r-b.location().r))*width);
+							//System.out.println((ccs.get(i)+(b.tiles.get(j).c-b.location().c))*height);
 							main.rect(
 									//(rrs.get(i)+(b.tiles.get(j).r-b.location().r))*width, 
 									//(ccs.get(i)+(b.tiles.get(j).c-b.location().c))*height, 

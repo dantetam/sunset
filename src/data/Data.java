@@ -37,7 +37,8 @@ public class Data {
 		b.add(1,0);
 		b.add(0,0);
 		b.add(-1,0);
-		b.input = new Item(2,10); b.output = new Item(10,1);
+		b.input = null; b.output = new Item(10,1);
+		//b.input = new Item(2,10); b.output = new Item(10,1);
 		mapOfBuildings.put("Stove",b);
 	}
 	
