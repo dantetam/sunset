@@ -22,7 +22,7 @@ public class ColonistSystem extends BaseSystem {
 			Colonist col = colonists.get(i);
 			if (col.queue.size() == 0)
 			{
-				Order o = new Order("moveNearestTree", -1);
+				Order o = new Order("moveNearestRes1", -1);
 				col.queue.add(o);
 			}
 		}

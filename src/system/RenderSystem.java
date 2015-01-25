@@ -101,12 +101,15 @@ public class RenderSystem extends BaseSystem {
 				main.fill(0,0,255,50);
 				if (boxSelect.contains(t))
 				{
+					main.pushMatrix();
+					main.translate(cameraX - widthX/2, cameraY - widthY/2);
 					main.rect(
-					(rr)*width, 
-					(cc+0.25F)*height, 
-					width/2,
-					height/2
+					(rr+0.375F)*width, 
+					(cc+0.375F)*height, 
+					width/4,
+					height/4
 					);
+					main.popMatrix();
 				}
 				main.fill(255,255,255,255);
 				for (int i = 0; i < t.occupants.size(); i++)

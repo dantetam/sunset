@@ -138,7 +138,9 @@ public class Grid {
 				{
 					if (((Resource)getTile(r,c).item).id == id && ((Resource)getTile(r,c).item).order)
 					{
-						candidates.add(getTile(r,c));
+						//System.out.println(((Resource)getTile(r,c).item).reserve);
+						if (((Resource)getTile(r,c).item).reserve == null)
+							candidates.add(getTile(r,c));
 					}
 				}
 			}

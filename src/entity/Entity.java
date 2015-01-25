@@ -11,6 +11,7 @@ public class Entity {
 	protected Tile location; 
 	public float spriteX, spriteY;
 	public Grid grid;
+	public LivingEntity reserve = null;
 
 	public Entity()
 	{

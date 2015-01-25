@@ -43,6 +43,7 @@ public class Game extends PApplet {
 		systems.add(renderSystem);
 		systems.add(menuSystem);
 		systems.add(colonistSystem);
+		menuSystem.init();
 		colonistSystem.init();
 		
 		path = new Pathfinder(grid());

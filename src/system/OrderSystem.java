@@ -50,12 +50,16 @@ public class OrderSystem extends BaseSystem {
 	{
 		if (order.frames != -1 || order.frames != 0)
 			order.frames--;
-		if (order.type.equals("moveNearestTree"))
+		if (order.type.contains("moveNearestRes"))
 		{
 			//ArrayList<Tile> adj = grid.adjacent(person.location().r, person.location().c);
-			Tile tree = grid.nearestResource(person.location().r, person.location().c, 1);
+			int id = Integer.parseInt(order.type.substring(14));
+			Tile tree = grid.nearestResource(person.location().r, person.location().c, id);
 			if (tree != null)
 			{
+				//int index = -1; do {index++;} while (tree.item.reserve != null);
+				tree.item.reserve = person;
+				
 				ArrayList<Tile> path = main.path.findAdjustedPath(person.location().r, person.location().c, tree.r, tree.c);
 				if (path == null) return;
 				for (int i = 0; i < path.size() - 1; i++)

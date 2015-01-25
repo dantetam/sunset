@@ -94,6 +94,8 @@ public class InputSystem extends BaseSystem {
 		Tile t = main.grid().getTile(r,c);
 		main.renderSystem.highlighted = t;
 		main.println(r + "::::" + c);*/
+		if (main.menuSystem.passMouse(mouseX, mouseY))
+			return;
 		main.renderSystem.firstBound = main.renderSystem.mh;
 	}
 	
