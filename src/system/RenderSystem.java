@@ -14,7 +14,8 @@ import sunset.Game;
 public class RenderSystem extends BaseSystem {
 
 	public int cameraX = 16, cameraY = 16, widthX = 48, widthY = 27; //Defines a rectangle with cX, cY at center
-
+	public Tile mh = null;
+	
 	public RenderSystem(Game g) {
 		super(g);
 	}
@@ -39,8 +40,8 @@ public class RenderSystem extends BaseSystem {
 						r*width > cameraX + widthX/2 || 
 						c*height < cameraY - widthY/2 || 
 						c*height > cameraY + widthY/2) continue;*/
-				Tile t = grid.getTile(r,c);
 				cc++;
+				Tile t = grid.getTile(r,c);
 				if (t == null) continue;
 				/*Entity test = main.colonistSystem.colonists.get(0);
 				Tile near = grid.nearestResource(test.location().r, test.location().c, 1);
@@ -49,10 +50,15 @@ public class RenderSystem extends BaseSystem {
 					main.fill(0,0,255);
 				else*/
 					main.fill(Data.terrainMap.get(t.terrain));
+				if (main.renderSystem.mh != null)
+					if (t.equals(main.renderSystem.mh))
+						main.fill(0,0,255);
 				main.pushMatrix();
 				main.translate(cameraX - widthX/2, cameraY - widthY/2);
 				main.rect(rr*width, cc*height, width, height);
 				main.popMatrix();
+				if (main.mouseX > rr*width && main.mouseY > cc*height && main.mouseX < (rr+1)*width && main.mouseY < (cc+1)*height)
+					mh = t;
 				if (t.item != null)
 				{
 					if (t.item instanceof Resource)

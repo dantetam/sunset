@@ -3,6 +3,7 @@ package system;
 import java.util.ArrayList;
 
 import level.Grid;
+import level.Tile;
 import sunset.Game;
 
 
@@ -88,7 +89,11 @@ public class InputSystem extends BaseSystem {
 
 	public void passLeftMouseClick(float mouseX, float mouseY)
 	{
-
+		/*int r = (int)((mouseX/(double)main.width)*(double)main.renderSystem.widthX + ((double)main.renderSystem.cameraX-(double)main.renderSystem.widthX/2D));
+		int c = (int)((mouseY/(double)main.height)*(double)main.renderSystem.widthY + ((double)main.renderSystem.cameraY-(double)main.renderSystem.widthY/2D));
+		Tile t = main.grid().getTile(r,c);
+		main.renderSystem.highlighted = t;
+		main.println(r + "::::" + c);*/
 	}
 
 	public void passRightMouseClick(float mouseX, float mouseY)

@@ -23,6 +23,8 @@ public class Game extends PApplet {
 	public MenuSystem menuSystem = new MenuSystem(this);
 	public ColonistSystem colonistSystem = new ColonistSystem(this);
 	
+	public int len = 128; //<=128
+	
 	public static void main(String[] args)
 	{
 		PApplet.main(new String[]{Game.class.getName()});
@@ -33,7 +35,7 @@ public class Game extends PApplet {
 		size(1600,900);
 		Data.setup();
 		
-		level = new Level(1,32,32);
+		level = new Level(1,len,len);
 		
 		systems = new ArrayList<BaseSystem>();
 		systems.add(orderSystem);
@@ -53,6 +55,14 @@ public class Game extends PApplet {
 		for (int i = 0; i < systems.size(); i++)
 		{
 			systems.get(i).tick();
+		}
+	}
+	
+	public void mousePressed()
+	{
+		if (mouseButton == LEFT)
+		{
+			inputSystem.queueLeftClick(mouseX, mouseY);
 		}
 	}
 	

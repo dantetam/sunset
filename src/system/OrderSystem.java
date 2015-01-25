@@ -60,7 +60,7 @@ public class OrderSystem extends BaseSystem {
 				if (path == null) return;
 				for (int i = 0; i < path.size() - 1; i++)
 				{
-					Order o = new Order("move", 40);
+					Order o = new Order("move", 25);
 					o.data.add(path.get(i).r - path.get(i+1).r);
 					o.data.add(path.get(i).c - path.get(i+1).c);
 					//System.out.println((path.get(i+1).r - path.get(i).r) + " " + (path.get(i+1).c - path.get(i).c));
@@ -74,8 +74,8 @@ public class OrderSystem extends BaseSystem {
 		}
 		else if (order.type.equals("move"))
 		{
-			person.spriteX += order.data.get(0).doubleValue()/40D;
-			person.spriteY += order.data.get(1).doubleValue()/40D;
+			person.spriteX += order.data.get(0).doubleValue()/25D;
+			person.spriteY += order.data.get(1).doubleValue()/25D;
 			//main.println(order.data.get(0).doubleValue()/40D);
 			if (order.frames == 0)
 			{

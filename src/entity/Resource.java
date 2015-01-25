@@ -6,6 +6,7 @@ public class Resource extends Entity {
 
 	public int id, itemId, itemNum;
 	public double life;
+	public boolean order = false;
 	
 	public Resource(int id, int id2, int n, double l)
 	{

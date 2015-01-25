@@ -24,4 +24,9 @@ public class Tile {
 		return Math.sqrt(Math.pow(t.r-r,2) + Math.pow(t.c-c,2));
 	}
 	
+	public boolean equals(Tile t)
+	{
+		return r == t.r && c == t.c; //&& grid.equals(t.grid); 
+	}
+	
 }

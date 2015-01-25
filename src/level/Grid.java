@@ -91,7 +91,7 @@ public class Grid {
 			{
 				if (getTile(r,c).item instanceof Resource)
 				{
-					if (((Resource)getTile(r,c).item).id == id)
+					if (((Resource)getTile(r,c).item).id == id && ((Resource)getTile(r,c).item).order)
 					{
 						candidates.add(getTile(r,c));
 					}
