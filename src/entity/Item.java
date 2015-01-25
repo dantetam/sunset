@@ -9,4 +9,9 @@ public class Item extends Entity {
 		id = i; number = n;
 	}
 	
+	public Item(Item i)
+	{
+		id = i.id; number = i.number;
+	}
+	
 }

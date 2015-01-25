@@ -7,7 +7,8 @@ public class Data {
 	public static HashMap<Integer, Color> terrainMap = new HashMap<Integer, Color>();
 	public static HashMap<Integer, Color> resourceMap = new HashMap<Integer, Color>();
 	public static HashMap<Integer, Color> personMap = new HashMap<Integer, Color>();
-	
+	public static HashMap<Integer, Color> itemMap = new HashMap<Integer, Color>();	
+
 	public static void setup()
 	{
 		terrainMap.put(0, new Color(150, 225, 255)); //ice
@@ -18,6 +19,14 @@ public class Data {
 		resourceMap.put(1, new Color(140, 70, 0)); //a tree
 		
 		personMap.put(0, new Color(255, 0, 0)); //a test person
+		
+		itemMap.put(0, new Color(125, 125, 125)); //stones
+		itemMap.put(1, new Color(140, 70, 20)); //logs
 	}
+	
+	/*public static Item item(int id)
+	{
+		return new Item(itemMap.get(id));
+	}*/
 	
 }

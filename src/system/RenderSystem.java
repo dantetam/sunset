@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import data.Data;
 import entity.Entity;
+import entity.Item;
 import entity.LivingEntity;
 import entity.Resource;
 import level.Grid;
@@ -67,6 +68,23 @@ public class RenderSystem extends BaseSystem {
 								height/2);
 						main.popMatrix();
 					}
+					else if (t.item instanceof Item)
+					{
+						Item item = (Item)t.item;
+						main.fill(Data.itemMap.get(item.id));
+						main.pushMatrix();
+						main.translate(cameraX - widthX/2, cameraY - widthY/2);
+						double x = (rr+((double)item.spriteX-(double)item.location().r)+0.25F)*width;
+						double y = (cc+((double)item.spriteY-(double)item.location().c)+0.25F)*height;
+						main.rect(
+								x, 
+								y, 
+								width/2, 
+								height/2);
+						main.fill(0);
+						main.text(item.number + "", x, y);
+						main.popMatrix();
+					}
 				}
 				for (int i = 0; i < t.occupants.size(); i++)
 				{
@@ -94,6 +112,10 @@ public class RenderSystem extends BaseSystem {
 						width/2, 
 						height/2);
 				main.popMatrix();
+			}
+			else if (entities.get(i) instanceof Item)
+			{
+
 			}
 		}
 		/*for (int i = 0; i < grid.entities.size(); i++)

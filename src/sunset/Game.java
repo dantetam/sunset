@@ -66,15 +66,10 @@ public class Game extends PApplet {
 		inputSystem.keyReleased(key);
 	}
 	
-	public void fill(Color c)
-	{
-		super.fill(c.r, c.g, c.b);
-	}
+	public void fill(Color c) {super.fill(c.r, c.g, c.b);}
 	
-	public void rect(double a, double b, double c, double d)
-	{
-		rect((float)a, (float)b, (float)c, (float)d);
-	}
+	public void text(String text, double a, double b) {super.text(text, (float)a, (float)b);}
+	public void rect(double a, double b, double c, double d) {super.rect((float)a, (float)b, (float)c, (float)d);}
 	
 	public Grid grid() {return level.levels.get(level.activeGrid);}
 	

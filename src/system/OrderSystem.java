@@ -2,8 +2,11 @@ package system;
 
 import java.util.ArrayList;
 
+import data.Data;
 import entity.Entity;
+import entity.Item;
 import entity.LivingEntity;
+import entity.Resource;
 import game.Order;
 import level.Grid;
 import level.Tile;
@@ -37,7 +40,7 @@ public class OrderSystem extends BaseSystem {
 				{
 					Order o = person.queue.get(0);
 					executeOrder(grid, person, o);
-					if (o.frames == 0 || o.destroy) person.queue.remove(o);
+					if (o.frames == 0) person.queue.remove(o);
 				}
 			}
 		}
@@ -63,11 +66,11 @@ public class OrderSystem extends BaseSystem {
 					//System.out.println((path.get(i+1).r - path.get(i).r) + " " + (path.get(i+1).c - path.get(i).c));
 					person.queue.add(o);
 				}
-				Order o = new Order("harvest", 40);
+				Order o = new Order("harvest", -1);
 				o.data.add(tree.r); o.data.add(tree.c);
 				person.queue.add(o);
 			}
-			order.destroy = true;
+			order.frames = 0;
 		}
 		else if (order.type.equals("move"))
 		{
@@ -83,10 +86,18 @@ public class OrderSystem extends BaseSystem {
 		}
 		else if (order.type.equals("harvest"))
 		{
-
+			Entity en = grid.getTile(order.data.get(0).intValue(), order.data.get(1).intValue()).item;
+			if (en instanceof Resource)
+			{
+				Resource res = (Resource)en;
+				res.life -= 5;
+				if (res.life <= 0)
+				{
+					res.remove();
+					order.frames = 0;
+				}
+			}
 		}
-
-		if (order.frames == 0) order.destroy = true;
 	}
 
 }

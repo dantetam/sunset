@@ -37,7 +37,7 @@ public class Grid {
 				if (terrain[r][c] > 30)
 				{
 					t.terrain = 1;
-					Resource rock = new Resource(0, 300);
+					Resource rock = new Resource(0, 0, 20, 300);
 					rock.move(t);
 					revealed[r][c] = false;
 				}
@@ -51,7 +51,7 @@ public class Grid {
 					t.terrain = 2;
 					if (Math.random() < 0.02)
 					{
-						Resource tree = new Resource(1, 100);
+						Resource tree = new Resource(1, 1, 20, 100);
 						tree.move(t);
 					}
 					revealed[r][c] = true;

@@ -8,7 +8,7 @@ import game.Order;
 
 public class Entity {
 
-	private Tile location; 
+	protected Tile location; 
 	public float spriteX, spriteY;
 	public Grid grid;
 
