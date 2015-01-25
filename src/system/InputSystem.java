@@ -115,13 +115,19 @@ public class InputSystem extends BaseSystem {
 	{
 		if (key == 'i')
 		{
-			main.renderSystem.widthX /= 1.2;
-			main.renderSystem.widthY /= 1.2;
+			main.renderSystem.widthX -= 16;
+			main.renderSystem.widthY -= 9;
 		}
 		else if (key == 'o')
 		{
-			main.renderSystem.widthX *= 1.2;
-			main.renderSystem.widthY *= 1.2;
+			main.renderSystem.widthX += 16;
+			main.renderSystem.widthY += 9;
+		}
+		else if (key == 'r')
+		{
+			//TODO: Implement
+			if (++main.renderSystem.buildingRotation > 3)
+				main.renderSystem.buildingRotation = 0;
 		}
 	}
 

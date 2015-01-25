@@ -2,6 +2,9 @@ package system;
 
 import java.util.ArrayList;
 
+import data.Data;
+import entity.Blueprint;
+import entity.Building;
 import entity.Entity;
 import entity.Resource;
 import level.Tile;
@@ -14,7 +17,8 @@ public class MenuSystem extends BaseSystem {
 	public String tool = null;
 	public ArrayList<Entity> groupSelected;
 	public Entity selected = null;
-
+	public int debounce = 0;
+	
 	public ArrayList<Menu> menus;
 	
 	public MenuSystem(Game g) {
@@ -166,6 +170,17 @@ public class MenuSystem extends BaseSystem {
 				{
 					removeTileInZone(tiles.get(i));
 				}
+			}
+			else if (main.menuSystem.tool.contains("building"))
+			{
+				//if (main.grid().getTile(b.r,b.c).item != null) return;
+				Blueprint candidate = new Blueprint(Data.mapOfBuildings.get(main.menuSystem.tool.substring(8)));
+				//candidate.setPivot(mh.r,mh.c);
+				System.out.println("eeyyyy " + b.r + " " + b.c);
+				//candidate.grid = main.grid();
+				candidate.move(main.grid().getTile(b.r,b.c));
+				candidate.setLocation(main.grid().getTile(b.r,b.c));
+				main.grid().buildings.add(candidate);
 			}
 		}
 		/*main.println(a + " -> " + b);

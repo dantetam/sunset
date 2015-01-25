@@ -3,6 +3,7 @@ package system;
 import java.util.ArrayList;
 
 import data.Data;
+import entity.Blueprint;
 import entity.Entity;
 import entity.Item;
 import entity.LivingEntity;
@@ -94,6 +95,33 @@ public class OrderSystem extends BaseSystem {
 				}
 				Order o = new Order("harvest", -1);
 				o.data.add(tree.r); o.data.add(tree.c);
+				person.queue.add(o);
+				return true;
+			}
+			order.frames = 0;
+		}
+		else if (order.type.equals("constructNearest"))
+		{
+			Blueprint tree = null;
+			//Blueprint tree = grid.nearestBlueprint(person.location().r, person.location().c);
+			if (tree != null)
+			{
+				//int index = -1; do {index++;} while (tree.item.reserve != null);
+				tree.reserve = person;
+
+				ArrayList<Tile> path = main.path.findAdjustedPath(person.location().r, person.location().c, tree.location().r, tree.location().c);
+				if (path == null) return false;
+				for (int i = 0; i < path.size() - 1; i++)
+				{
+					Order o = new Order("move", 25);
+					o.data.add(path.get(i).r - path.get(i+1).r);
+					o.data.add(path.get(i).c - path.get(i+1).c);
+					//System.out.println((path.get(i+1).r - path.get(i).r) + " " + (path.get(i+1).c - path.get(i).c));
+					person.queue.add(o);
+				}
+				Order o = new Order("construct", -1);
+				//o.data.add(tree.location().r); o.data.add(tree.location().c);
+				o.entityData.add(tree);
 				person.queue.add(o);
 				return true;
 			}
@@ -224,12 +252,27 @@ public class OrderSystem extends BaseSystem {
 				return true;
 			}
 		}
+		else if (order.type.equals("construct"))
+		{
+			Entity en = grid.getTile(order.data.get(0).intValue(), order.data.get(1).intValue()).item;
+			if (en instanceof Blueprint)
+			{
+				Blueprint blue = (Blueprint)en;
+				blue.work -= 1;
+				if (blue.work <= 0)
+				{
+					blue.remove();
+					order.frames = 0;
+				}
+				return true;
+			}
+		}
 		else
 		{
 			System.out.println("Invalid order: " + order.type);
 			return false;
 		}
-		return true;
+		return true; //return false since true was not returned before this?
 	}
 
 }

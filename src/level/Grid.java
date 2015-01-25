@@ -57,8 +57,13 @@ public class Grid {
 					t.terrain = 2;
 					if (Math.random() < 0.02)
 					{
-						Resource tree = new Resource(1, 1, 20, 100);
-						tree.move(t);
+						Resource res = new Resource(1, 1, 20, 100);
+						res.move(t);
+					}
+					else if (Math.random() < 0.03)
+					{
+						Resource res = new Resource(2, 2, 8, 80);
+						res.move(t);
 					}
 					revealed[r][c] = true;
 				}
@@ -147,6 +152,19 @@ public class Grid {
 		}
 		return nearest(candidates, row, col);
 	}
+	
+	/*public Blueprint nearestBlueprint(int row, int col)
+	{
+		ArrayList<Tile> candidates = new ArrayList<Tile>();
+		for (int i = 0; i < buildings.size(); i++)
+		{
+			if (buildings.get(i) instanceof Blueprint)
+			{
+				Blueprint blue = (Blueprint)buildings.get(i);
+			}
+		}
+		return nearest(candidates, row, col);
+	}*/
 
 	//Possibly refine the two methods below using a comparator/boolean function as an input
 	public Tile nearestItem(int row, int col)

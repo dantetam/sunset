@@ -23,7 +23,7 @@ public class Game extends PApplet {
 	public MenuSystem menuSystem = new MenuSystem(this);
 	public ColonistSystem colonistSystem = new ColonistSystem(this);
 	
-	public int len = 128; //<=128
+	public int len = 64; //<=128
 	
 	public static void main(String[] args)
 	{

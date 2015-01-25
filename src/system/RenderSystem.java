@@ -18,6 +18,7 @@ public class RenderSystem extends BaseSystem {
 	public int cameraX = 16, cameraY = 16, widthX = 48, widthY = 27; //Defines a rectangle with cX, cY at center
 	public Tile mh = null;
 	public Tile firstBound = null;
+	public int buildingRotation = 0;
 
 	public RenderSystem(Game g) {
 		super(g);
@@ -72,11 +73,11 @@ public class RenderSystem extends BaseSystem {
 								candidate.move(grid.getTile(mh.r,mh.c));
 								candidate.setLocation(grid.getTile(mh.r,mh.c));
 								entities.add(candidate);
-								if (candidate.location() != null)
-									main.println(candidate.location() + "<<<<");
+								//if (candidate.location() != null)
+								//main.println(candidate.location() + "<<<<");
 								rrs.add(rr);
 								ccs.add(cc);
-								main.println(">>>>" + rr + " " + cc);
+								//main.println(">>>>" + rr + " " + cc);
 							}
 						}
 					}
@@ -166,9 +167,12 @@ public class RenderSystem extends BaseSystem {
 							Tile tile = grid.buildings.get(i).tiles.get(j);
 							if (tile.equals(t))
 							{
-								entities.add(grid.buildings.get(i));
-								rrs.add(rr);
-								ccs.add(cc);
+								if (!entities.contains(grid.buildings.get(i)))
+								{
+									entities.add(grid.buildings.get(i));
+									rrs.add(rr);
+									ccs.add(cc);
+								}
 								break out; //No raptors yet...
 							}
 						}
@@ -182,7 +186,7 @@ public class RenderSystem extends BaseSystem {
 
 
 
-		//int n = 0;
+		int n = 0;
 		for (int i = 0; i < entities.size(); i++)
 		{
 			if (entities.get(i) instanceof LivingEntity)
@@ -204,8 +208,9 @@ public class RenderSystem extends BaseSystem {
 			}
 			else if (entities.get(i) instanceof Building)
 			{
-				//n++;
+				n++;
 				Building b = (Building)entities.get(i);
+				System.out.println(b.tiles.size());
 				for (int j = 0; j < b.tiles.size(); j++)
 				{
 					if (b.location() != null)
@@ -226,7 +231,7 @@ public class RenderSystem extends BaseSystem {
 				}
 			}
 		}
-		//main.println(n + ":::::,_");
+		main.println("n: " + n);
 		/*if (candidate != null)
 		{
 			candidate.remove();
