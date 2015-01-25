@@ -24,14 +24,20 @@ public class OrderSystem extends BaseSystem {
 			if (en instanceof LivingEntity)
 			{
 				LivingEntity person = (LivingEntity)en;
-				for (int j = 0; j < person.queue.size(); j++)
+				/*for (int j = 0; j < person.queue.size(); j++)
 				{
 					//main.println("j: " + j + "/" + n);
 					//main.println(t.occupants.size());
 					Order o = person.queue.get(j);
 					executeOrder(grid, person, o);
-					/*if (o.destroy)
-					t.occupants.get(i).queue.remove(o);*/
+					if (o.destroy)
+					t.occupants.get(i).queue.remove(o);
+				}*/
+				if (person.queue.size() > 0)
+				{
+					Order o = person.queue.get(0);
+					executeOrder(grid, person, o);
+					if (o.frames == 0 || o.destroy) person.queue.remove(o);
 				}
 			}
 		}
@@ -39,7 +45,6 @@ public class OrderSystem extends BaseSystem {
 
 	public void executeOrder(Grid grid, LivingEntity person, Order order)
 	{
-		if (order.destroy) return;
 		if (order.frames != -1 || order.frames != 0)
 			order.frames--;
 		if (order.type.equals("moveNearestTree"))
@@ -49,15 +54,18 @@ public class OrderSystem extends BaseSystem {
 			if (tree != null)
 			{
 				ArrayList<Tile> path = main.path.findAdjustedPath(person.location().r, person.location().c, tree.r, tree.c);
+				if (path == null) return;
 				for (int i = 0; i < path.size() - 1; i++)
 				{
 					Order o = new Order("move", 40);
-					o.data.add(path.get(i+1).r - path.get(i).r);
-					o.data.add(path.get(i+1).c - path.get(i).c);
+					o.data.add(path.get(i).r - path.get(i+1).r);
+					o.data.add(path.get(i).c - path.get(i+1).c);
+					//System.out.println((path.get(i+1).r - path.get(i).r) + " " + (path.get(i+1).c - path.get(i).c));
 					person.queue.add(o);
 				}
 				Order o = new Order("harvest", 40);
 				o.data.add(tree.r); o.data.add(tree.c);
+				person.queue.add(o);
 			}
 			order.destroy = true;
 		}
@@ -65,8 +73,10 @@ public class OrderSystem extends BaseSystem {
 		{
 			person.spriteX += order.data.get(0).doubleValue()/40D;
 			person.spriteY += order.data.get(1).doubleValue()/40D;
+			//main.println(order.data.get(0).doubleValue()/40D);
 			if (order.frames == 0)
 			{
+				//System.out.println("moving");
 				Tile t = grid.getTile(person.location().r + (int)order.data.get(0), person.location().c + (int)order.data.get(1));
 				person.move(t);
 			}

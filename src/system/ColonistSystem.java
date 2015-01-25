@@ -31,7 +31,7 @@ public class ColonistSystem extends BaseSystem {
 	public void init()
 	{
 		Grid grid = main.grid();
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 1; i++)
 		{
 			int r,c;
 			do

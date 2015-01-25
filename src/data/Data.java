@@ -6,6 +6,7 @@ public class Data {
 
 	public static HashMap<Integer, Color> terrainMap = new HashMap<Integer, Color>();
 	public static HashMap<Integer, Color> resourceMap = new HashMap<Integer, Color>();
+	public static HashMap<Integer, Color> personMap = new HashMap<Integer, Color>();
 	
 	public static void setup()
 	{
@@ -15,6 +16,8 @@ public class Data {
 		
 		resourceMap.put(0, new Color(125, 125, 125)); //a rock
 		resourceMap.put(1, new Color(140, 70, 0)); //a tree
+		
+		personMap.put(0, new Color(255, 0, 0)); //a test person
 	}
 	
 }

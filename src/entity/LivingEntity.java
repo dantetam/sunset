@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public abstract class LivingEntity extends Entity {
 
+	public int id;
 	public ArrayList<Order> queue;
 	public Item item = null;
 	public float health;

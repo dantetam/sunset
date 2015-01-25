@@ -33,7 +33,7 @@ public class Game extends PApplet {
 		size(1600,900);
 		Data.setup();
 		
-		level = new Level(1,100,100);
+		level = new Level(1,32,32);
 		
 		systems = new ArrayList<BaseSystem>();
 		systems.add(orderSystem);
@@ -44,6 +44,8 @@ public class Game extends PApplet {
 		colonistSystem.init();
 		
 		path = new Pathfinder(grid());
+		
+		frameRate(30);
 	}
 	
 	public void draw()
@@ -67,6 +69,11 @@ public class Game extends PApplet {
 	public void fill(Color c)
 	{
 		super.fill(c.r, c.g, c.b);
+	}
+	
+	public void rect(double a, double b, double c, double d)
+	{
+		rect((float)a, (float)b, (float)c, (float)d);
 	}
 	
 	public Grid grid() {return level.levels.get(level.activeGrid);}

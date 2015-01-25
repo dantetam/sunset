@@ -19,6 +19,7 @@ public class Entity {
 
 	public boolean move(Tile t)
 	{
+		if (t == null) return false;
 		if (grid == null)
 		{
 			t.grid.entities.add(this);
