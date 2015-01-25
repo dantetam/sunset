@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import entity.Colonist;
 import entity.Entity;
+import entity.Item;
 import entity.Resource;
 import terrain.DiamondSquare;
 
@@ -16,13 +17,13 @@ public class Grid {
 	public boolean[][] revealed;
 	public ArrayList<Entity> entities; //For quick reference
 	public ArrayList<Zone> zones;
-	
+
 	public Grid(int rows, int cols)
 	{
 		tiles = new Tile[rows][cols];
 		revealed = new boolean[rows][cols];
 		this.rows = rows; this.cols = cols;
-		
+
 		entities = new ArrayList<Entity>();
 		zones = new ArrayList<Zone>();
 
@@ -62,7 +63,7 @@ public class Grid {
 			}
 		}
 	}
-	
+
 	//Returns all tiles between a and b
 	public ArrayList<Tile> box(Tile a, Tile b)
 	{
@@ -128,7 +129,41 @@ public class Grid {
 		if (getTile(r-1,c-1) != null) {temp.add(getTile(r-1,c-1));} 
 		return temp;
 	}
-	
+
+	public Tile nearestStockpile(int row, int col)
+	{
+		ArrayList<Tile> candidates = new ArrayList<Tile>();
+		for (int i = 0; i < zones.size(); i++)
+		{
+			for (int j = 0; j < zones.get(i).tiles.size(); j++)
+			{
+				Tile t = zones.get(i).tiles.get(j);
+				if (t.item == null)
+					candidates.add(t);
+			}
+		}
+		return nearest(candidates, row, col);
+	}
+
+	//Possibly refine the two methods below using a comparator/boolean function as an input
+	public Tile nearestItem(int row, int col)
+	{
+		ArrayList<Tile> candidates = new ArrayList<Tile>();
+		for (int r = 0; r < rows; r++)
+		{
+			for (int c = 0; c < cols; c++)
+			{
+				if (getTile(r,c).item instanceof Item)
+				{
+					//System.out.println("sekai");
+					if (!((Item)getTile(r,c).item).forbid && ((Item)getTile(r,c).item).reserve == null)
+						candidates.add(getTile(r,c));
+				}
+			}
+		}
+		return nearest(candidates, row, col);
+	}
+
 	public Tile nearestResource(int row, int col, int id)
 	{
 		ArrayList<Tile> candidates = new ArrayList<Tile>();
@@ -147,6 +182,11 @@ public class Grid {
 				}
 			}
 		}
+		return nearest(candidates, row, col);
+	}
+
+	private Tile nearest(ArrayList<Tile> candidates, int row, int col)
+	{
 		Tile candidate = null; 
 		Tile location = getTile(row,col); if (location == null) return null;
 		for (int i = 0; i < candidates.size(); i++)

@@ -24,6 +24,7 @@ public class Resource extends Entity {
 		Tile loc = location;
 		super.remove();
 		item.move(loc);
+		item.forbid = false;
 		System.out.println(item.location.r + " " + item.location.c);
 	}
 	

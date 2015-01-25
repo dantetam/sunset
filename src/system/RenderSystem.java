@@ -102,6 +102,11 @@ public class RenderSystem extends BaseSystem {
 								height/2);
 						main.fill(0);
 						main.text(item.number + "", x, y);
+						if (item.forbid)
+						{
+							main.fill(255,0,0);
+							main.text("X",x + width/4, y + height/4);
+						}
 						main.popMatrix();
 					}
 				}
@@ -111,11 +116,11 @@ public class RenderSystem extends BaseSystem {
 					main.pushMatrix();
 					main.translate(cameraX - widthX/2, cameraY - widthY/2);
 					main.rect(
-					(rr+0.375F)*width, 
-					(cc+0.375F)*height, 
-					width/4,
-					height/4
-					);
+							(rr+0.375F)*width, 
+							(cc+0.375F)*height, 
+							width/4,
+							height/4
+							);
 					main.popMatrix();
 				}
 				main.fill(255,255,255,255);
