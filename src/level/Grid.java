@@ -2,6 +2,7 @@ package level;
 
 import java.util.ArrayList;
 
+import entity.Blueprint;
 import entity.Building;
 import entity.Colonist;
 import entity.Entity;
@@ -153,18 +154,27 @@ public class Grid {
 		return nearest(candidates, row, col);
 	}
 	
-	/*public Blueprint nearestBlueprint(int row, int col)
+	public Blueprint nearestBlueprint(int row, int col)
 	{
-		ArrayList<Tile> candidates = new ArrayList<Tile>();
+		Blueprint candidate = null;
+		Tile t = getTile(row,col);
 		for (int i = 0; i < buildings.size(); i++)
 		{
 			if (buildings.get(i) instanceof Blueprint)
 			{
 				Blueprint blue = (Blueprint)buildings.get(i);
+				if (blue.reserve != null) continue;
+				if (candidate == null)
+					candidate = blue;
+				else
+				{
+					if (blue.location().dist(t) < candidate.location().dist(t))
+						candidate = blue;
+				}
 			}
 		}
-		return nearest(candidates, row, col);
-	}*/
+		return candidate;
+	}
 
 	//Possibly refine the two methods below using a comparator/boolean function as an input
 	public Tile nearestItem(int row, int col)

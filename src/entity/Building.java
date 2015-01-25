@@ -10,6 +10,7 @@ public class Building extends Entity {
 	public ArrayList<Tile> tiles;
 	public Item input, output;
 	public int rotation = 0; //rotation*90 degrees
+	public long name = (long) (System.currentTimeMillis()*Math.random());
 	
 	public Building()
 	{
@@ -40,6 +41,12 @@ public class Building extends Entity {
 		}
 		return super.move(t);
 	}
+	
+	public void remove()
+	{
+		location.grid.buildings.remove(this);
+		super.remove();
+	}
 
 	//Note -> only to be used by Data class
 	public void setPivot(int r, int c)
@@ -56,5 +63,9 @@ public class Building extends Entity {
 	{
 		location = t;
 	}
+	
+	public Tile location() {return location;}
+	
+	public boolean equals(Building b) {if (b == null) return false; return name == b.name;}
 	
 }

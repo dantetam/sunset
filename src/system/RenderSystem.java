@@ -3,6 +3,7 @@ package system;
 import java.util.ArrayList;
 
 import data.Data;
+import entity.Blueprint;
 import entity.Building;
 import entity.Entity;
 import entity.Item;
@@ -70,8 +71,8 @@ public class RenderSystem extends BaseSystem {
 								candidate = new Building(Data.mapOfBuildings.get(main.menuSystem.tool.substring(8)));
 								//candidate.setPivot(mh.r,mh.c);
 								candidate.grid = grid;
-								candidate.move(grid.getTile(mh.r,mh.c));
-								candidate.setLocation(grid.getTile(mh.r,mh.c));
+								candidate.move(mh);
+								candidate.setLocation(mh);
 								entities.add(candidate);
 								//if (candidate.location() != null)
 								//main.println(candidate.location() + "<<<<");
@@ -210,28 +211,74 @@ public class RenderSystem extends BaseSystem {
 			{
 				n++;
 				Building b = (Building)entities.get(i);
-				System.out.println(b.tiles.size());
+				if (b == null) continue;
+				//System.out.println(b.tiles.size());
 				for (int j = 0; j < b.tiles.size(); j++)
 				{
+					/*if ()
+					if (!(b instanceof Blueprint) && !(candidate.equals(b)))
+					{
+						main.println(">" + b.name);
+						main.println(b.location());
+					}*/
 					if (b.location() != null)
 					{
-						main.fill(0);
-						main.pushMatrix();
-						main.translate(cameraX - widthX/2, cameraY - widthY/2);
-						main.rect(
-								//(rrs.get(i)+(b.tiles.get(j).r-b.location().r))*width, 
-								//(ccs.get(i)+(b.tiles.get(j).c-b.location().c))*height, 
-								(rrs.get(i)+(b.tiles.get(j).r-b.location().r))*width,
-								(ccs.get(i)+(b.tiles.get(j).c-b.location().c))*height,
-								width, 
-								height
-								);
-						main.popMatrix();
+						if (b instanceof Blueprint)
+						{
+							main.fill(0,0,0,50);
+							main.pushMatrix();
+							main.translate(cameraX - widthX/2, cameraY - widthY/2);
+							main.rect(
+									//(rrs.get(i)+(b.tiles.get(j).r-b.location().r))*width, 
+									//(ccs.get(i)+(b.tiles.get(j).c-b.location().c))*height, 
+									(rrs.get(i)+(b.tiles.get(j).r-b.location().r))*width,
+									(ccs.get(i)+(b.tiles.get(j).c-b.location().c))*height,
+									width, 
+									height
+									);
+							main.popMatrix();
+						}
+						else
+						{
+							main.fill(0,0,0,255);
+							main.pushMatrix();
+							main.translate(cameraX - widthX/2, cameraY - widthY/2);
+							System.out.println(">>>"+rrs.get(i)+" "+(b.tiles.get(j).r-b.location().r));
+							System.out.println((rrs.get(i)+(b.tiles.get(j).r-b.location().r))*width);
+							System.out.println((ccs.get(i)+(b.tiles.get(j).c-b.location().c))*height);
+							main.rect(
+									//(rrs.get(i)+(b.tiles.get(j).r-b.location().r))*width, 
+									//(ccs.get(i)+(b.tiles.get(j).c-b.location().c))*height, 
+									(rrs.get(i)+(b.tiles.get(j).r-b.location().r))*width,
+									(ccs.get(i)+(b.tiles.get(j).c-b.location().c))*height,
+									width, 
+									height
+									);
+							main.popMatrix();
+						}
 					}
+				}
+				if (b instanceof Blueprint)
+				{
+					Blueprint blue = (Blueprint)b;
+					main.fill(255,0,0);
+					main.rect(
+							rrs.get(i)*width,
+							(ccs.get(i) + 1/4)*height,
+							width*(1F-(float)blue.work/(float)blue.maxWork), 
+							height/2
+							);
+					main.fill(0,255,0);
+					main.rect(
+							rrs.get(i)*width,
+							(ccs.get(i) + 1/4)*height,
+							width, 
+							height/2
+							);
 				}
 			}
 		}
-		main.println("n: " + n);
+		//main.println("n: " + n);
 		/*if (candidate != null)
 		{
 			candidate.remove();

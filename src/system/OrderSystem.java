@@ -102,8 +102,7 @@ public class OrderSystem extends BaseSystem {
 		}
 		else if (order.type.equals("constructNearest"))
 		{
-			Blueprint tree = null;
-			//Blueprint tree = grid.nearestBlueprint(person.location().r, person.location().c);
+			Blueprint tree = grid.nearestBlueprint(person.location().r, person.location().c);
 			if (tree != null)
 			{
 				//int index = -1; do {index++;} while (tree.item.reserve != null);
@@ -254,7 +253,8 @@ public class OrderSystem extends BaseSystem {
 		}
 		else if (order.type.equals("construct"))
 		{
-			Entity en = grid.getTile(order.data.get(0).intValue(), order.data.get(1).intValue()).item;
+			//Entity en = grid.getTile(order.data.get(0).intValue(), order.data.get(1).intValue()).item;
+			Entity en = order.entityData.get(0);
 			if (en instanceof Blueprint)
 			{
 				Blueprint blue = (Blueprint)en;

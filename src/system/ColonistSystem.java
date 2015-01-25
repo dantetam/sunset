@@ -26,6 +26,8 @@ public class ColonistSystem extends BaseSystem {
 				col.secondQueue.add(o);
 				o = new Order("haulAll", -1);
 				col.secondQueue.add(o);
+				o = new Order("constructNearest", -1);
+				col.secondQueue.add(o);
 			}
 		}
 	}
