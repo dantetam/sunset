@@ -9,6 +9,7 @@ import entity.LivingEntity;
 import entity.Resource;
 import level.Grid;
 import level.Tile;
+import level.Zone;
 import sunset.Game;
 
 public class RenderSystem extends BaseSystem {
@@ -56,9 +57,15 @@ public class RenderSystem extends BaseSystem {
 					main.fill(0,0,255);
 				else*/
 				main.fill(Data.terrainMap.get(t.terrain));
+				for (int i = 0; i < grid.zones.size(); i++)
+				{
+					Zone z = grid.zones.get(i);
+					if (z.tiles.contains(t))
+						main.fill(z.r,z.g,z.b,100);
+				}
 				if (main.renderSystem.mh != null)
 					if (t.equals(main.renderSystem.mh))
-						main.fill(0,0,255);
+						main.fill(0,0,255,100);
 				main.pushMatrix();
 				main.translate(cameraX - widthX/2, cameraY - widthY/2);
 				main.rect(rr*width, cc*height, width, height);

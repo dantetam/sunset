@@ -15,7 +15,8 @@ public class Grid {
 	public double[][] terrain;
 	public boolean[][] revealed;
 	public ArrayList<Entity> entities; //For quick reference
-
+	public ArrayList<Zone> zones;
+	
 	public Grid(int rows, int cols)
 	{
 		tiles = new Tile[rows][cols];
@@ -23,6 +24,7 @@ public class Grid {
 		this.rows = rows; this.cols = cols;
 		
 		entities = new ArrayList<Entity>();
+		zones = new ArrayList<Zone>();
 
 		double[][] temp = DiamondSquare.makeTable(-20, -20, -20, -20, 129);
 		ds = new DiamondSquare(temp);

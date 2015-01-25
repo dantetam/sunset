@@ -65,6 +65,10 @@ public class Game extends PApplet {
 		{
 			inputSystem.queueLeftClick(mouseX, mouseY);
 		}
+		else if (mouseButton == RIGHT)
+		{
+			menuSystem.tool = "";
+		}
 	}
 	
 	public void mouseReleased()

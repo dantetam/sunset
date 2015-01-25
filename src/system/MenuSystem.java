@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import entity.Entity;
 import entity.Resource;
 import level.Tile;
+import level.Zone;
 import render.*;
 import sunset.Game;
 
@@ -27,11 +28,17 @@ public class MenuSystem extends BaseSystem {
 		Menu menu0 = new Menu();
 		menu0.active = true;
 		menu0.addButton("menu1", "Orders", 0, main.height/2, main.width/8, main.height/30);
+		menu0.addButton("menu2", "Zones", 0, main.height/2 + main.height/30, main.width/8, main.height/30);
 		menus.add(menu0);
 		
 		Menu menu1 = new Menu(); //OrderMenu
 		menu1.addButton("harvest1", "Chop Trees", main.width/8, main.height/2, main.width/16, main.height/30);
 		menus.add(menu1);
+		
+		Menu menu2 = new Menu(); //ZoneMenu
+		menu2.addButton("zone", "Zone Stockpile", main.width/8, main.height/2, main.width/16, main.height/30);
+		menu2.addButton("dezone", "No Zone", main.width/8, main.height/2 + main.height/30, main.width/16, main.height/30);
+		menus.add(menu2);
 	}
 
 	public void tick() 
@@ -53,6 +60,8 @@ public class MenuSystem extends BaseSystem {
 			}
 		}
 		main.textAlign(main.LEFT);
+		if (tool != null)
+			main.text(tool, main.mouseX, main.mouseY);
 	}
 	
 	public void executeCommand(String s)
@@ -61,6 +70,14 @@ public class MenuSystem extends BaseSystem {
 		if (s.contains("harvest"))
 		{
 			tool = s;
+		}
+		else if (s.equals("zone"))
+		{
+			tool = "zone";
+		}
+		else if (s.equals("dezone"))
+		{
+			tool = "dezone";
 		}
 		else if (s.contains("menu"))
 		{
@@ -124,12 +141,42 @@ public class MenuSystem extends BaseSystem {
 					}
 				}
 			}
+			else if (tool.equals("zone"))
+			{
+				Zone z = new Zone();
+				z.tiles = tiles;
+				for (int i = 0; i < z.tiles.size(); i++)
+				{
+					removeTileInZone(z.tiles.get(i));
+				}
+				main.grid().zones.add(z);
+			}
+			else if (tool.equals("dezone"))
+			{
+				for (int i = 0; i < tiles.size(); i++)
+				{
+					removeTileInZone(tiles.get(i));
+				}
+			}
 		}
 		/*main.println(a + " -> " + b);
 		for (int r = 0; r < tiles.size(); r++)
 		{
 			main.println(tiles.get(r));
 		}*/
+	}
+	
+	private void removeTileInZone(Tile t)
+	{
+		for (int j = 0; j < main.grid().zones.size(); j++)
+		{
+			Zone z = main.grid().zones.get(j);
+			if (z.tiles.contains(t))
+			{
+				z.tiles.remove(t);
+			}
+			//break; //A tile can only be in one zone at a time
+		}
 	}
 
 	private void select(ArrayList<Tile> tiles)
