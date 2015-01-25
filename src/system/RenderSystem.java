@@ -15,7 +15,8 @@ public class RenderSystem extends BaseSystem {
 
 	public int cameraX = 16, cameraY = 16, widthX = 48, widthY = 27; //Defines a rectangle with cX, cY at center
 	public Tile mh = null;
-	
+	public Tile firstBound = null;
+
 	public RenderSystem(Game g) {
 		super(g);
 	}
@@ -32,6 +33,11 @@ public class RenderSystem extends BaseSystem {
 		ArrayList<Entity> entities = new ArrayList<Entity>();
 		ArrayList<Integer> rrs = new ArrayList<Integer>();
 		ArrayList<Integer> ccs = new ArrayList<Integer>();
+		ArrayList<Tile> boxSelect = new ArrayList<Tile>();
+		if (firstBound != null)
+		{
+			boxSelect = grid.box(firstBound, mh);
+		}
 		for (int r = cameraX - widthX/2; r < cameraX + widthX/2; r++)
 		{
 			for (int c = cameraY - widthY/2; c < cameraY + widthY/2; c++)
@@ -49,7 +55,7 @@ public class RenderSystem extends BaseSystem {
 				if (path.contains(t))
 					main.fill(0,0,255);
 				else*/
-					main.fill(Data.terrainMap.get(t.terrain));
+				main.fill(Data.terrainMap.get(t.terrain));
 				if (main.renderSystem.mh != null)
 					if (t.equals(main.renderSystem.mh))
 						main.fill(0,0,255);
@@ -92,6 +98,17 @@ public class RenderSystem extends BaseSystem {
 						main.popMatrix();
 					}
 				}
+				main.fill(0,0,255,50);
+				if (boxSelect.contains(t))
+				{
+					main.rect(
+					(rr)*width, 
+					(cc+0.25F)*height, 
+					width/2,
+					height/2
+					);
+				}
+				main.fill(255,255,255,255);
 				for (int i = 0; i < t.occupants.size(); i++)
 				{
 					entities.add(t.occupants.get(i));

@@ -60,6 +60,51 @@ public class Grid {
 			}
 		}
 	}
+	
+	//Returns all tiles between a and b
+	public ArrayList<Tile> box(Tile a, Tile b)
+	{
+		ArrayList<Tile> tiles = new ArrayList<Tile>();
+		//Brute force
+		if (a.equals(b))
+		{
+			tiles.add(a);
+			//return tiles;
+		}
+		if (a.r <= b.r)
+		{
+			for (int r = a.r; r <= b.r; r++)
+			{
+				if (a.c <= b.c)
+				{
+					for (int c = a.c; c <= b.c; c++)
+						tiles.add(getTile(r,c));
+				}
+				else
+				{
+					for (int c = b.c; c <= a.c; c++)
+						tiles.add(getTile(r,c));
+				}
+			}
+		}
+		else
+		{
+			for (int r = b.r; r <= a.r; r++)
+			{
+				if (a.c <= b.c)
+				{
+					for (int c = a.c; c <= b.c; c++)
+						tiles.add(getTile(r,c));
+				}
+				else
+				{
+					for (int c = b.c; c <= a.c; c++)
+						tiles.add(getTile(r,c));
+				}
+			}
+		}
+		return tiles;
+	}
 
 	public Tile getTile(int r, int c)
 	{

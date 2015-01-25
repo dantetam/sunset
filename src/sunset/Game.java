@@ -66,6 +66,14 @@ public class Game extends PApplet {
 		}
 	}
 	
+	public void mouseReleased()
+	{
+		if (mouseButton == LEFT)
+		{
+			inputSystem.mouseReleased();
+		}
+	}
+	
 	public void keyPressed()
 	{
 		inputSystem.queueKey(key);

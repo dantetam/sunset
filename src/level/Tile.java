@@ -29,4 +29,9 @@ public class Tile {
 		return r == t.r && c == t.c; //&& grid.equals(t.grid); 
 	}
 	
+	public String toString()
+	{
+		return "[" + r + "," + c + "]";
+	}
+	
 }

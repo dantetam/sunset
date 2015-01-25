@@ -84,8 +84,8 @@ public class InputSystem extends BaseSystem {
 
 	public ArrayList<Click> clicks = new ArrayList<Click>();
 	public class Click {String type; float mouseX, mouseY; Click(String t, float x, float y) {type = t; mouseX = x; mouseY = y;}}
-	public void queueLeftClick(float mouseX, float mouseY) {clicks.add(0, new Click("Left",mouseX, mouseY));}
-	public void queueRightClick(float mouseX, float mouseY) {clicks.add(0, new Click("Right",mouseX, mouseY));}
+	public void queueLeftClick(float mouseX, float mouseY) {clicks.add(0, new Click("Left", mouseX, mouseY));}
+	public void queueRightClick(float mouseX, float mouseY) {clicks.add(0, new Click("Right", mouseX, mouseY));}
 
 	public void passLeftMouseClick(float mouseX, float mouseY)
 	{
@@ -94,11 +94,19 @@ public class InputSystem extends BaseSystem {
 		Tile t = main.grid().getTile(r,c);
 		main.renderSystem.highlighted = t;
 		main.println(r + "::::" + c);*/
+		main.renderSystem.firstBound = main.renderSystem.mh;
 	}
-
+	
 	public void passRightMouseClick(float mouseX, float mouseY)
 	{
 
+	}
+	
+	public void mouseReleased()
+	{
+		if (main.renderSystem.firstBound != null)
+			main.menuSystem.groupSelect(main.renderSystem.firstBound, main.renderSystem.mh);
+		main.renderSystem.firstBound = null;
 	}
 
 	public void executeAction(char key)
