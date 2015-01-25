@@ -3,6 +3,7 @@ package system;
 import java.util.ArrayList;
 
 import data.Data;
+import entity.Building;
 import entity.Entity;
 import entity.Item;
 import entity.LivingEntity;
@@ -35,6 +36,7 @@ public class RenderSystem extends BaseSystem {
 		ArrayList<Integer> rrs = new ArrayList<Integer>();
 		ArrayList<Integer> ccs = new ArrayList<Integer>();
 		ArrayList<Tile> boxSelect = new ArrayList<Tile>();
+		Building candidate = null;
 		if (firstBound != null)
 		{
 			boxSelect = grid.box(firstBound, mh);
@@ -56,6 +58,29 @@ public class RenderSystem extends BaseSystem {
 				if (path.contains(t))
 					main.fill(0,0,255);
 				else*/
+				if (mh != null && candidate == null)
+				{
+					if (mh.equals(t))
+					{
+						if (main.menuSystem.tool != null)
+						{
+							if (main.menuSystem.tool.contains("building"))
+							{
+								candidate = new Building(Data.mapOfBuildings.get(main.menuSystem.tool.substring(8)));
+								//candidate.setPivot(mh.r,mh.c);
+								candidate.grid = grid;
+								candidate.move(grid.getTile(mh.r,mh.c));
+								candidate.setLocation(grid.getTile(mh.r,mh.c));
+								entities.add(candidate);
+								if (candidate.location() != null)
+									main.println(candidate.location() + "<<<<");
+								rrs.add(rr);
+								ccs.add(cc);
+								main.println(">>>>" + rr + " " + cc);
+							}
+						}
+					}
+				}
 				main.fill(Data.terrainMap.get(t.terrain));
 				for (int i = 0; i < grid.zones.size(); i++)
 				{
@@ -64,8 +89,11 @@ public class RenderSystem extends BaseSystem {
 						main.fill(z.r,z.g,z.b,100);
 				}
 				if (main.renderSystem.mh != null)
+				{
 					if (t.equals(main.renderSystem.mh))
 						main.fill(0,0,255,100);
+
+				}
 				main.pushMatrix();
 				main.translate(cameraX - widthX/2, cameraY - widthY/2);
 				main.rect(rr*width, cc*height, width, height);
@@ -130,12 +158,31 @@ public class RenderSystem extends BaseSystem {
 					rrs.add(rr);
 					ccs.add(cc);
 				}
+				out:
+					for (int i = 0; i < grid.buildings.size(); i++)
+					{
+						for (int j = 0; j < grid.buildings.get(i).tiles.size(); j++)
+						{
+							Tile tile = grid.buildings.get(i).tiles.get(j);
+							if (tile.equals(t))
+							{
+								entities.add(grid.buildings.get(i));
+								rrs.add(rr);
+								ccs.add(cc);
+								break out; //No raptors yet...
+							}
+						}
+					}
 				//if (c*height > widthY) break; //Edge of screen
 			}
 			rr++;
 			cc = 0;
 			//if (r*width > widthX) continue; //Edge of screen
 		}
+
+
+
+		//int n = 0;
 		for (int i = 0; i < entities.size(); i++)
 		{
 			if (entities.get(i) instanceof LivingEntity)
@@ -155,7 +202,36 @@ public class RenderSystem extends BaseSystem {
 			{
 
 			}
+			else if (entities.get(i) instanceof Building)
+			{
+				//n++;
+				Building b = (Building)entities.get(i);
+				for (int j = 0; j < b.tiles.size(); j++)
+				{
+					if (b.location() != null)
+					{
+						main.fill(0);
+						main.pushMatrix();
+						main.translate(cameraX - widthX/2, cameraY - widthY/2);
+						main.rect(
+								//(rrs.get(i)+(b.tiles.get(j).r-b.location().r))*width, 
+								//(ccs.get(i)+(b.tiles.get(j).c-b.location().c))*height, 
+								(rrs.get(i)+(b.tiles.get(j).r-b.location().r))*width,
+								(ccs.get(i)+(b.tiles.get(j).c-b.location().c))*height,
+								width, 
+								height
+								);
+						main.popMatrix();
+					}
+				}
+			}
 		}
+		//main.println(n + ":::::,_");
+		/*if (candidate != null)
+		{
+			candidate.remove();
+		}*/
+		candidate = null;
 		/*for (int i = 0; i < grid.entities.size(); i++)
 		{
 			Entity en = grid.entities.get(i);

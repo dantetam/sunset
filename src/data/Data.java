@@ -2,13 +2,16 @@ package data;
 
 import java.util.HashMap;
 
+import entity.Building;
+
 public class Data {
 
 	public static HashMap<Integer, Color> terrainMap = new HashMap<Integer, Color>();
 	public static HashMap<Integer, Color> resourceMap = new HashMap<Integer, Color>();
 	public static HashMap<Integer, Color> personMap = new HashMap<Integer, Color>();
 	public static HashMap<Integer, Color> itemMap = new HashMap<Integer, Color>();	
-
+	public static HashMap<String, Building> mapOfBuildings = new HashMap<String, Building>();
+	
 	public static void setup()
 	{
 		terrainMap.put(0, new Color(150, 225, 255)); //ice
@@ -22,6 +25,14 @@ public class Data {
 		
 		itemMap.put(0, new Color(125, 125, 125)); //stones
 		itemMap.put(1, new Color(140, 70, 20)); //logs
+		
+		Building b;
+		 
+		b = new Building();
+		b.add(1,0);
+		b.add(0,0);
+		b.add(-1,0);
+		mapOfBuildings.put("Stove",b);
 	}
 	
 	/*public static Item item(int id)

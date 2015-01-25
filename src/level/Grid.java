@@ -2,6 +2,7 @@ package level;
 
 import java.util.ArrayList;
 
+import entity.Building;
 import entity.Colonist;
 import entity.Entity;
 import entity.Item;
@@ -17,6 +18,7 @@ public class Grid {
 	public boolean[][] revealed;
 	public ArrayList<Entity> entities; //For quick reference
 	public ArrayList<Zone> zones;
+	public ArrayList<Building> buildings;
 
 	public Grid(int rows, int cols)
 	{
@@ -26,6 +28,7 @@ public class Grid {
 
 		entities = new ArrayList<Entity>();
 		zones = new ArrayList<Zone>();
+		buildings = new ArrayList<Building>();
 
 		double[][] temp = DiamondSquare.makeTable(-20, -20, -20, -20, 129);
 		ds = new DiamondSquare(temp);

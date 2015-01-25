@@ -29,6 +29,7 @@ public class MenuSystem extends BaseSystem {
 		menu0.active = true;
 		menu0.addButton("menu1", "Orders", 0, main.height/2, main.width/8, main.height/30);
 		menu0.addButton("menu2", "Zones", 0, main.height/2 + main.height/30, main.width/8, main.height/30);
+		menu0.addButton("menu3", "Furniture", 0, main.height/2 + main.height/15, main.width/8, main.height/30);
 		menus.add(menu0);
 		
 		Menu menu1 = new Menu(); //OrderMenu
@@ -39,6 +40,10 @@ public class MenuSystem extends BaseSystem {
 		menu2.addButton("zone", "Zone Stockpile", main.width/8, main.height/2, main.width/16, main.height/30);
 		menu2.addButton("dezone", "No Zone", main.width/8, main.height/2 + main.height/30, main.width/16, main.height/30);
 		menus.add(menu2);
+		
+		Menu menu3 = new Menu(); //FurnitureMenu
+		menu3.addButton("buildingStove", "Stove", main.width/8, main.height/2, main.width/16, main.height/30);
+		menus.add(menu3);
 	}
 
 	public void tick() 
@@ -84,6 +89,10 @@ public class MenuSystem extends BaseSystem {
 			int id = Integer.parseInt(s.substring(4));
 			//closeMenus();
 			menus.get(id).active = true;
+		}
+		else if (s.contains("building"))
+		{
+			tool = s;
 		}
 	}
 	
